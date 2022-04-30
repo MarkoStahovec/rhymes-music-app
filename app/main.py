@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from .routers import register, login, song
+from .routers import register, login, song, likes
 
 app = FastAPI()
 app.include_router(register.router)
 app.include_router(login.router)
 app.include_router(song.router)
+app.include_router(likes.router)
 
 
 @app.get("/")
