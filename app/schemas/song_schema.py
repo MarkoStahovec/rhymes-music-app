@@ -18,3 +18,8 @@ class GetAllSongs(BaseModel):
     author: str
     uploaded_at: datetime
 
+
+class SongInfo(BaseModel):
+    name: str
+    author: str
+

@@ -73,6 +73,24 @@ def get_song(db: Session = Depends(create_connection),
     return Response(content=filter_query.track, media_type=f'audio/mpeg')
 
 
+@router.get("/getinfo/{song_id}", response_model=song_schema.SongInfo, status_code=HTTP_200_OK,
+            summary="Retrieves info about a song.",
+            responses={404: {"description": "Song was not found."}})
+def get_song_info(db: Session = Depends(create_connection),
+                  song_id: Optional[int] = 0,
+                  user: User = Depends(auth.get_current_user)):
+    result = db.query(Song.name, Song.author).filter(Song.song_id == song_id)
+    filter_query = result.filter(Song.song_id == song_id).first()
+
+    if filter_query is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Song was not found."
+        )
+
+    return filter_query
+
+
 @router.get("/getall/", response_model=List[song_schema.GetAllSongs], status_code=HTTP_200_OK,
             summary="Retrieves all songs.",
             responses={404: {"description": "Songs were not found."}})

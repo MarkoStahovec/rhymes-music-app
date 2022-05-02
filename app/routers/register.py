@@ -93,7 +93,7 @@ async def register(user: UserRegister, db: Session = Depends(create_connection))
     if check_nickname_length(user.nickname):
         raise HTTPException(
             status_code=HTTP_403_FORBIDDEN,
-            detail="First name has invalid length.",
+            detail="Nickname has invalid length.",
         )
 
     if check_email_length(user.email):
